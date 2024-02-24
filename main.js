@@ -1,1 +1,1 @@
-console.log('test')
+const { normalizeURL } = require('./crawl.js')
