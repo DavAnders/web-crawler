@@ -1,7 +1,6 @@
-function normalizeUrl(test) {
-    console.log(test)
+function normalizeURL(urlString) {
+    return urlString
 }
 
 module.exports = {
-    normalizeUrl
-}
+    normalizeURL}
