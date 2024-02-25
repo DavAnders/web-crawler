@@ -1,5 +1,5 @@
 const { normalizeURL, getURLsFromHTML, crawlPage } = require('./crawl.js')
-
+const { printReport } = require('./report.js')
 
 async function main() {
     if (process.argv.length < 3) {
