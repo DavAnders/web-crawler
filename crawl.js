@@ -32,6 +32,47 @@ function getURLsFromHTML(htmlBody, baseURL) {
 }
 
 
+async function crawlPage(baseURL, currentURL, pages={}) {
+    const normalizedURL = normalizeURL(currentURL)
+
+    if (!normalizedURL.startsWith(normalizeURL(baseURL))) {
+        return pages
+    }
+    if (!pages[normalizedURL]) {
+        pages[normalizedURL] = (currentURL === baseURL) ? 0 : 1
+    } else {
+        pages[normalizedURL]++
+        return pages
+    }
+
+    console.log(`Crawling: ${currentURL}`)
+
+    try {
+        const response = await fetch(currentURL)
+    if (response.status >= 400) {
+        console.log(`Error in status: ${response.status}`)
+        return pages
+    }
+    const contentType = response.headers.get('Content-Type')
+    if (!contentType || !contentType.includes('text/html')) {
+        console.log(`Content-Type header '${contentType}' is not 'text/html'`)
+        return pages
+    }
+
+    const body = await response.text()
+    const foundURLs = getURLsFromHTML(body, baseURL)
+    
+    for (const url of foundURLs) {
+        await crawlPage(baseURL, url, pages)
+    }
+    } catch (error) {
+        console.error(`Failed to fetch ${currentURL}`, error.message)
+    }
+    return pages
+}
+
 module.exports = {
     normalizeURL,
-    getURLsFromHTML}
+    getURLsFromHTML,
+    crawlPage
+}
