@@ -10,10 +10,7 @@ function main() {
         console.log('too many arguments provided')
         process.exit(1)
     }
-    for (const arg of process.argv) {
-        console.log(arg)
-    }
-    console.log('starting crawl')
+    console.log(`starting crawl at ${process.argv[2]}`)
 }
 
 main()
