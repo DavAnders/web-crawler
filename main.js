@@ -15,7 +15,7 @@ async function main() {
 
     try {
         const pages = await crawlPage(baseURL, baseURL, {})
-        console.log('Crawled page and link counts:', pages)
+        printReport(pages)
     } catch (error) {
         console.error('Error during crawl:', error.message)
     }
